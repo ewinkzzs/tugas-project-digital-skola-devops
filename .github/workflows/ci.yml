@@ -38,8 +38,21 @@ jobs:
     needs: test
     steps:
       - uses: actions/checkout@v4
-      - run: pip install pip-audit
-      - run: pip-audit
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install Dependencies
+        run: |
+          pip install -r requirements.txt
+          pip install -r dev-requirements.txt
+
+      - name: Install pip-audit
+        run: pip install pip-audit
+
+      - name: Run pip-audit
+        run: pip-audit
 
   secret-scan:
     runs-on: ubuntu-latest
